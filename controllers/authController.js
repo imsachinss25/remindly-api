@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const userExists = UserDao.findUserByEmail({ email });
+    const userExists = await UserDao.findUserByEmail({ email });
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
 
