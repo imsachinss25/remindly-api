@@ -5,11 +5,15 @@ exports.createReminder = async (req, res) => {
   try {
     const { title, description, date, time } = req.body;
 
+    if(!title) res.status(500).json({ message: 'Please provide title!' });
+    if(!date) res.status(500).json({ message: 'Please provide date!' });
+    if(!time) res.status(500).json({ message: 'Please provide time!' });
+    
     // Combine date + time
     const reminderTime = new Date(`${date}T${time}:00`);
 
     const reminder = await ReminderDao.createReminder({
-      user: req.userId,
+      userId: req.userId,
       title,
       description,
       reminderTime,
