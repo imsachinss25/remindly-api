@@ -1,18 +1,18 @@
 const nodemailer = require("nodemailer");
 const axios = require("axios");
 
-const transporter = nodemailer.createTransport({
-  host: process.env.BREVO_HOST,
-  port: Number(process.env.BREVO_PORT),
-  secure: false,
-  connectionTimeout: 15000,
-  greetingTimeout: 15000,
-  socketTimeout: 15000,
-  auth: {
-    user: process.env.BREVO_LOGIN,
-    pass: process.env.BREVO_SMTP_KEY,
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   host: process.env.BREVO_HOST,
+//   port: Number(process.env.BREVO_PORT),
+//   secure: false,
+//   connectionTimeout: 15000,
+//   greetingTimeout: 15000,
+//   socketTimeout: 15000,
+//   auth: {
+//     user: process.env.BREVO_LOGIN,
+//     pass: process.env.BREVO_SMTP_KEY,
+//   },
+// });
 
 // Having issues of smtp connection on Render
 const sendEmailBySmtp = async (to, subject, text) => {
