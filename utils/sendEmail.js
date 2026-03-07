@@ -14,11 +14,23 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (to, subject, text) => {
+
   console.log("mail logs >>>> ", {
      host: process.env.BREVO_HOST,
   port: Number(process.env.BREVO_PORT),
   from: process.env.BREVO_FROM,
+    user: process.env.BREVO_LOGIN,
+    pass: process.env.BREVO_SMTP_KEY,
   })
+
+  transporter.verify((err, success) => {
+  if (err) {
+    console.error("SMTP verify failed:", err);
+  } else {
+    console.log("SMTP server ready");
+  }
+});
+
   const resp = await transporter.sendMail({
     from: process.env.BREVO_FROM,
     to,
