@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const axios = require("axios");
 
 const transporter = nodemailer.createTransport({
   host: process.env.BREVO_HOST,
@@ -13,21 +14,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.verify((err, success) => {
-  if (err) {
-    console.error("SMTP verify failed:", err);
-  } else {
-    console.log("SMTP server ready");
-  }
-});
-
-const sendEmail = async (to, subject, text) => {
-
-  console.log("mail logs >>>> ", {
-    host: process.env.BREVO_HOST,
-    port: Number(process.env.BREVO_PORT),
-    from: process.env.BREVO_FROM,
-  })
+// Having issues of smtp connection on Render
+const sendEmailBySmtp = async (to, subject, text) => {
 
   const resp = await transporter.sendMail({
     from: process.env.BREVO_FROM,
@@ -38,4 +26,25 @@ const sendEmail = async (to, subject, text) => {
   console.log("resp>>>> ", resp)
 };
 
-module.exports = sendEmail;
+const sendEmailByAxios = async (to, subject, text) => {
+  await axios.post(
+  "https://api.brevo.com/v3/smtp/email",
+  {
+    sender: {
+      email: process.env.BREVO_FROM,
+      name: "Remindly"
+    },
+    to: [{ email: to }],
+    subject,
+    textContent: text
+  },
+  {
+    headers: {
+      "api-key": process.env.BREVO_API_KEY,
+      "Content-Type": "application/json"
+    }
+  }
+);
+}
+
+module.exports = sendEmailByAxios;

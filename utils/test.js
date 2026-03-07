@@ -1,17 +1,18 @@
-const sendEmail = require("./sendEmail");
 
-sendEmail(
-				'remindertest123@yopmail.com',
-				`Reminder: Standup`,
-				`
-Hello Sachin,
+// const sendEmail = require("./sendEmail");
 
-This is a reminder for:
+// sendEmail(
+// 				'remindertest123@yopmail.com',
+// 				`Reminder: Standup`,
+// 				`
+// Hello Sachin,
 
-Title: Standup call
-Description: discuss R1 goals
-Time: 5 march
+// This is a reminder for:
 
-- Remindly
-        `
-			);
+// Title: Standup call
+// Description: discuss R1 goals
+// Time: 5 march
+
+// - Remindly
+//         `
+// 			);
