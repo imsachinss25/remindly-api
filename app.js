@@ -19,11 +19,15 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+// Health
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/reminders", reminderRoutes);
 
-// Health Check
 app.get("/", (req, res) => {
   res.send("Reminder API Running...");
 });
