@@ -38,7 +38,7 @@ Remindly
 				reminderIds.push(reminder._id);
       }
 			console.log("updated reminder ids >>> ", reminderIds)
-			await ReminderDao.updateRemindersToNotified({ reminderIds })
+			//await ReminderDao.updateRemindersToNotified({ reminderIds })
       console.log("Reminder cron executed at", new Date());
     } catch (err) {
       console.error("Scheduler error:", err);
