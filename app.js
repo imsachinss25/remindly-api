@@ -6,6 +6,10 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const reminderRoutes = require("./routes/reminder");
 
+const startReminderScheduler = require("./services/reminderScheduler");
+
+startReminderScheduler();
+
 const app = express();
 
 // Connect Database

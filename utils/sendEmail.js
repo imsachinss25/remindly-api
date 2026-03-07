@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = async (to, subject, text) => {
   const resp = await transporter.sendMail({
-    from: `${process.env.BREVO_FROM}`,
+    from: process.env.BREVO_FROM,
     to,
     subject,
     text,

@@ -1,38 +1,50 @@
-const Reminder = require("../models/reminder");
+const ReminderDao = require("../dao/reminder");
 const sendEmail = require("../utils/sendEmail");
+const cron = require("node-cron");
 
-const checkReminders = async () => {
-	try {
-		const now = new Date();
 
-		const dueReminders = await Reminder.find({
-			reminderTime: { $lte: now },
-			notified: false,
-		}).populate("user");
+// runs every minute
+const startReminderScheduler = () => {
+  cron.schedule("* * * * *", async () => {
+    try {
+			const reminderIds = [];
+      const reminders = await ReminderDao.fetchDueReminders();
 
-		for (let reminder of dueReminders) {
-			await sendEmail(
-				reminder.user.email,
-				`Reminder: ${reminder.title}`,
-				`
+			console.log("Reminders >>> ", reminders)
+
+      for (let reminder of reminders) {
+       await sendEmail(
+  reminder.user.email,
+  `Reminder: ${reminder.title}`,
+  `
 Hello ${reminder.user.name},
 
-This is a reminder for:
+⏰ You have an upcoming reminder.
 
-Title: ${reminder.title}
-Description: ${reminder.description}
-Time: ${reminder.reminderTime}
+----------------------------------
 
-- Remindly
-        `
-			);
+Title       : ${reminder.title}
+Description : ${reminder.description}
+Time        : ${reminder.reminderTime}
 
-			reminder.notified = true;
-			await reminder.save();
-		}
-	} catch (error) {
-		console.error("Reminder check error:", error.message);
-	}
+----------------------------------
+
+Please make sure to take the necessary action.
+
+Thanks,  
+Remindly
+  `
+);
+				reminderIds.push(reminder._id);
+      }
+			console.log("updated reminder ids >>> ", reminderIds)
+			await ReminderDao.updateRemindersToNotified({ reminderIds })
+      console.log("Reminder cron executed at", new Date());
+    } catch (err) {
+      console.error("Scheduler error:", err);
+    }
+  });
 };
 
-module.exports = checkReminders;
+
+module.exports = startReminderScheduler;
