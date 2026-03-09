@@ -12,9 +12,6 @@ const startReminderScheduler = require("./services/reminderScheduler");
 startReminderScheduler();
 
 const app = express();
-console.log(new Date().toLocaleString("en-IN", {
-  timeZone: "Asia/Kolkata"
-}));
 
 // Connect Database
 connectDB();
