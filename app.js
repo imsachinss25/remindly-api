@@ -1,3 +1,4 @@
+process.env.TZ = "Asia/Kolkata";
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -11,6 +12,9 @@ const startReminderScheduler = require("./services/reminderScheduler");
 startReminderScheduler();
 
 const app = express();
+console.log(new Date().toLocaleString("en-IN", {
+  timeZone: "Asia/Kolkata"
+}));
 
 // Connect Database
 connectDB();
